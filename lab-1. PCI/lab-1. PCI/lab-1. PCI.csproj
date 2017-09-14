@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PciApi.cs" />
+    <Compile Include="PciDeviceInfo.cs" />
     <Compile Include="PciViewer.cs">
       <SubType>Form</SubType>
     </Compile>

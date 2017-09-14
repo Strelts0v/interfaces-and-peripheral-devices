@@ -37,12 +37,12 @@
             this.pciListView.FormattingEnabled = true;
             this.pciListView.Location = new System.Drawing.Point(9, 12);
             this.pciListView.Name = "pciListView";
-            this.pciListView.Size = new System.Drawing.Size(590, 277);
+            this.pciListView.Size = new System.Drawing.Size(445, 277);
             this.pciListView.TabIndex = 0;
             // 
             // exitButton
             // 
-            this.exitButton.Location = new System.Drawing.Point(524, 295);
+            this.exitButton.Location = new System.Drawing.Point(379, 295);
             this.exitButton.Name = "exitButton";
             this.exitButton.Size = new System.Drawing.Size(75, 23);
             this.exitButton.TabIndex = 1;
@@ -52,7 +52,7 @@
             // 
             // PciViewer
             // 
-            this.ClientSize = new System.Drawing.Size(608, 324);
+            this.ClientSize = new System.Drawing.Size(461, 322);
             this.Controls.Add(this.exitButton);
             this.Controls.Add(this.pciListView);
             this.Name = "PciViewer";

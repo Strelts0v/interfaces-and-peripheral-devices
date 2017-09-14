@@ -12,6 +12,8 @@ namespace PCI
 {
     public partial class PciViewer : Form
     {
+        private readonly static int OFFSET_VALUE = 200;
+
         public PciViewer()
         {
             InitializeComponent();
@@ -25,10 +27,12 @@ namespace PCI
         private void PciViewer_Load(object sender, EventArgs e)
         {
             PciApi pciApi = new PciApi();
-            List<string> devices = pciApi.getAllPciDevices();
+            List<PciDeviceInfo> devices = pciApi.GetAllPciDevices();
             foreach(var device in devices)
             {
-                pciListView.Items.Add(device);
+                pciListView.Items.Add(device.GetDeviceId());
+                pciListView.Items.Add(device.GetVendorId());
+                pciListView.Items.Add("-----------------------------------------------------------");
             }
         }
     }
