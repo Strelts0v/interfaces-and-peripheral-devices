@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Management;
 using System.Text.RegularExpressions;
+using System.IO;
+using System;
 
 namespace PCI
 {
@@ -10,15 +12,19 @@ namespace PCI
 
         private readonly static string DEVICE_ID = "DeviceID";
 
-        private readonly static string DEVICE_DESCRIPTION = "Description";
-
         private readonly static string DEVICE_ID_REGEXP_PATTERN = "DEV_.{4}";
 
         private readonly static string VENDOR_ID_REGEXP_PATTERN = "VEN_.{4}";
 
-        public List<string> getAllPciDevices()
+        private readonly static string PCI_INFO_FILE = "pci.ids";
+
+        private readonly static string DEVICE_ID_NOT_FOUND_MESSAGE = "Error! DeviceId not found";
+
+        private readonly static string VENDOR_ID_NOT_FOUND_MESSAGE = "Error! VendorId not found";
+
+        public List<PciDeviceInfo> GetAllPciDevices()
         {
-            List<string> pciDevices = new List<string>();
+            List<PciDeviceInfo> pciDevices = new List<PciDeviceInfo>();
 
             ManagementScope connectionScope = new ManagementScope();
 
@@ -27,25 +33,67 @@ namespace PCI
             Regex deviceIdRegExp = new Regex(DEVICE_ID_REGEXP_PATTERN);
             Regex vendorIdRegExp = new Regex(VENDOR_ID_REGEXP_PATTERN);
 
-            try
+            foreach (var item in searcher.Get())
             {
-                foreach (var item in searcher.Get())
+                string deviceId = item[DEVICE_ID].ToString();
+                if (deviceId.Contains("PCI"))
+                try
                 {
-                    string deviceId = item[DEVICE_ID].ToString();
-                    if (deviceId.Contains("PCI"))
-                        pciDevices.Add(
-                            "DeviceID: " + deviceIdRegExp.Match(deviceId).Value.Substring(4) + ";\t" +
-                            "VendorID: " + vendorIdRegExp.Match(deviceId).Value.Substring(4) + ";\t" +
-                             item[DEVICE_DESCRIPTION]
-                        );
+                    pciDevices.Add(
+                        GetPciDeviceInfo(
+                            deviceIdRegExp.Match(deviceId).Value.Substring(4).ToLower(),
+                            vendorIdRegExp.Match(deviceId).Value.Substring(4).ToLower()
+                        )
+                    );
+                } catch (FileNotFoundException e)
+                {
+                    Console.WriteLine(e);
                 }
-            }
-            catch (ManagementException)
+            }        
+            return pciDevices;
+        }
+
+        private PciDeviceInfo GetPciDeviceInfo(string device, string vendor)
+        {
+            if(!File.Exists(PCI_INFO_FILE))
             {
-                pciDevices.Add("Error! Cannot get information about devices from WMI");
+                throw new FileNotFoundException("Connot find pci.ids file near .exe file");
             }
 
-            return pciDevices;
+            StreamReader pciInfoFile = new StreamReader(PCI_INFO_FILE);
+
+            Regex vendorRegExp = new Regex("^" + vendor + "  ");
+            Regex deviceRegExp = new Regex("^\\t" + device + "  ");
+            string vendorId = null;
+            string deviceId = null;
+            while (!pciInfoFile.EndOfStream)
+            {
+                string vendorBuffer = pciInfoFile.ReadLine();
+                if (vendorBuffer != null && vendorRegExp.Match(vendorBuffer).Success)
+                {
+                    vendorId = "VendorID: " + vendor + " (" + vendorBuffer.Substring(6) + ")";
+                    while (!pciInfoFile.EndOfStream)
+                    {
+                        string deviceBuffer = pciInfoFile.ReadLine();
+                        if (deviceBuffer == null || !deviceRegExp.Match(deviceBuffer).Success)
+                            continue;
+
+                        deviceId = "DeviceID: " + device + " (" + deviceBuffer.Substring(7) + ")";
+                        break;
+                    }
+                }
+            }
+
+            PciDeviceInfo pciDeviceInfo; 
+            if (deviceId != null && vendorId != null)
+            {
+                pciDeviceInfo = new PciDeviceInfo(deviceId, vendorId);
+            } else
+            {
+                pciDeviceInfo = new PciDeviceInfo(DEVICE_ID_NOT_FOUND_MESSAGE, VENDOR_ID_NOT_FOUND_MESSAGE);
+            }
+
+            return pciDeviceInfo;
         }
     }
 }
