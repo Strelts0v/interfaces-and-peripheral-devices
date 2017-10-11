@@ -31,6 +31,7 @@ namespace Battery
         private void BatteryViewer_Load(object sender, EventArgs e)
         {
             batteryApi = BatteryApi.GetInstance();
+            batteryApi.SetPowerTimeout(60);
             isBatteryConditionUpdaterContinueWork = true;
             batteryConditionUpdater = new Thread(UpdateBatteryConditIonProcedure);
             batteryConditionUpdater.Start();
@@ -46,7 +47,7 @@ namespace Battery
         {
             while (isBatteryConditionUpdaterContinueWork)
             {
-                BatteryCondition batteryCondition = batteryApi.getCurrentBatteryCondition();
+                var batteryCondition = batteryApi.getCurrentBatteryCondition();
                 UpdateBatteryCondition(batteryCondition);
                 Thread.Sleep(batteryConditionUpdatingFrequency);
             }
@@ -85,6 +86,16 @@ namespace Battery
         {
             isBatteryConditionUpdaterContinueWork = false;
             batteryConditionUpdater.Abort();
+        }
+
+        private void powerTimeoutTrackBar_Scroll(object sender, EventArgs e)
+        {
+            int powerTimeoutInMunites = powerTimeoutTrackBar.Value;
+            if(powerTimeoutInMunites == 0)
+            {
+                powerTimeoutInMunites = 1;
+            }
+            batteryApi.SetPowerTimeout(powerTimeoutInMunites);
         }
     }
 }
