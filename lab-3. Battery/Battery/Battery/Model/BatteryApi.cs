@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Management;
+using System.Diagnostics;
 
 namespace Battery
 {
     class BatteryApi
     {
-        private static BatteryApi INSTANCE;
+        private static BatteryApi _instance;
 
         private const string GET_WMI_BATTERY_SQL_QUERY = "Select * FROM Win32_Battery";
 
@@ -22,34 +23,43 @@ namespace Battery
 
         public static BatteryApi GetInstance()
         {
-            if (INSTANCE == null)
+            if (_instance == null)
             {
-                INSTANCE = new BatteryApi();
+                _instance = new BatteryApi();
             }
-            return INSTANCE;
+            return _instance;
         }
 
         public BatteryCondition getCurrentBatteryCondition()
         {
-            ObjectQuery query = new ObjectQuery(GET_WMI_BATTERY_SQL_QUERY);
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
+            var query = new ObjectQuery(GET_WMI_BATTERY_SQL_QUERY);
+            var searcher = new ManagementObjectSearcher(query);
 
-            ManagementObjectCollection collection = searcher.Get();
+            var collection = searcher.Get();
 
-            BatteryCondition batteryCondition = new BatteryCondition();
+            var batteryCondition = new BatteryCondition();
             foreach (ManagementObject wmiBattery in collection)
             {
                 batteryCondition
-                    .SetPlugType((UInt16)wmiBattery[BATTERY_STATUS_PROPERTY_NAME]);
+                    .SetPlugType(Convert.ToInt32(wmiBattery[BATTERY_STATUS_PROPERTY_NAME]));
 
                 batteryCondition
-                    .SetChargeStatus((UInt16)wmiBattery[BATTERY_ESTIMATED_CHARGE_REMAINING_PROPERTY_NAME]);
+                    .SetChargeStatus(Convert.ToInt32(wmiBattery[BATTERY_ESTIMATED_CHARGE_REMAINING_PROPERTY_NAME]));
 
                 batteryCondition
-                    .SetEstimatedRunTime((UInt32)wmiBattery[BATTERY_ESTIMATED_RUNTIME_PROPERTY_NAME]);
+                    .SetEstimatedRunTime(Convert.ToInt32(wmiBattery[BATTERY_ESTIMATED_RUNTIME_PROPERTY_NAME]));
             }
 
             return batteryCondition;
+        }
+
+        public void SetPowerTimeout(int minutes)
+        {
+            var process = new Process();
+            process.StartInfo.FileName = "cmd.exe";
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            process.StartInfo.Arguments = "/c powercfg /x -monitor-timeout-dc " + minutes;
+            process.Start();
         }
     }
 }

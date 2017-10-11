@@ -12,8 +12,6 @@ namespace PCI
 {
     public partial class PciViewer : Form
     {
-        private readonly static int OFFSET_VALUE = 200;
-
         public PciViewer()
         {
             InitializeComponent();

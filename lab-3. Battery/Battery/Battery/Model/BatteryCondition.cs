@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Battery
 {
@@ -16,8 +17,8 @@ namespace Battery
 
         private enum PlugTypeEnum : short { Battery = 1, AC = 2};
 
-        private static readonly UInt16 MAX_BATTERY_STATUS = 100;
-        private static readonly UInt16 MIN_BATTERY_STATUS = 0;
+        private static readonly int MAX_BATTERY_STATUS = 100;
+        private static readonly int MIN_BATTERY_STATUS = 0;
         private static readonly string BATTERY_IS_CHARGING_MESSAGE = "battery is charging";
 
         public void SetPlugType(int plugTypeId)
@@ -25,15 +26,15 @@ namespace Battery
             PlugType = ((PlugTypeEnum) plugTypeId).ToString();
         }
 
-        public void SetChargeStatus(UInt16 chargeStatus)
+        public void SetChargeStatus(int chargeStatus)
         {
             if(IsChargeStatusValid(chargeStatus))
             {
-                ChargeStatus = $"{Convert.ToString(chargeStatus)} %";
+                ChargeStatus = $"{chargeStatus} %";
             }
         }
         
-        public void SetEstimatedRunTime(UInt32 estimatedRunTime)
+        public void SetEstimatedRunTime(int estimatedRunTime)
         {
             if(IsEstimatedRunTimeValid(estimatedRunTime))
             {
@@ -43,22 +44,22 @@ namespace Battery
                 }
                 else
                 {
-                    EstimatedRunTime = $"{Convert.ToString(estimatedRunTime)} minutes";
+                    EstimatedRunTime = $"{estimatedRunTime} minutes";
                 }
             }
         }
 
-        private bool IsChargeStatusValid(UInt16 chargeStatus)
+        private bool IsChargeStatusValid(int chargeStatus)
         {
             return chargeStatus > MIN_BATTERY_STATUS && chargeStatus <= MAX_BATTERY_STATUS;
         }
 
-        private bool IsEstimatedRunTimeValid(UInt32 estimatedRunTime)
+        private bool IsEstimatedRunTimeValid(int estimatedRunTime)
         {
             return estimatedRunTime > 0;
         }
 
-        private bool IsEstimatedRunTimeOfChargingBattery(UInt32 estimatedRunTime)
+        private bool IsEstimatedRunTimeOfChargingBattery(int estimatedRunTime)
         {
             const UInt32 ESTIMATED_RUN_TIME_OF_CHARGING_BATTERY = 71582788;
             return estimatedRunTime == ESTIMATED_RUN_TIME_OF_CHARGING_BATTERY;
