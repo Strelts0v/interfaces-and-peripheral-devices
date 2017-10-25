@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USB", "USB\USB.csproj", "{959A82CA-DEBD-48D6-98D2-0878CAD95660}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTPDevices", "MTPDevices\MTPDevices.csproj", "{690377B4-FA70-4FC7-81A2-19847BACB91B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USBEject", "USBEject\USBEject.csproj", "{5B68F5EA-218C-44E1-92F3-4615F5FB71BB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{959A82CA-DEBD-48D6-98D2-0878CAD95660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{959A82CA-DEBD-48D6-98D2-0878CAD95660}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{959A82CA-DEBD-48D6-98D2-0878CAD95660}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{959A82CA-DEBD-48D6-98D2-0878CAD95660}.Release|Any CPU.Build.0 = Release|Any CPU
+		{690377B4-FA70-4FC7-81A2-19847BACB91B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{690377B4-FA70-4FC7-81A2-19847BACB91B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{690377B4-FA70-4FC7-81A2-19847BACB91B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{690377B4-FA70-4FC7-81A2-19847BACB91B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B68F5EA-218C-44E1-92F3-4615F5FB71BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B68F5EA-218C-44E1-92F3-4615F5FB71BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B68F5EA-218C-44E1-92F3-4615F5FB71BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B68F5EA-218C-44E1-92F3-4615F5FB71BB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D5E4BCC5-57B1-4040-8C45-FC0DB91BF389}
+	EndGlobalSection
+EndGlobal

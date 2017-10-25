@@ -23,6 +23,8 @@ namespace Battery
         // sets time in seconds - how often battery conditon will be updated
         private int batteryConditionUpdatingFrequency = 2000;
 
+        private static readonly int DEFAULT_POWER_TIMEOUT_IN_MINUTES = 5;
+
         public BatteryViewer()
         {
             InitializeComponent();
@@ -40,6 +42,7 @@ namespace Battery
         private void ExitButton_Click(object sender, EventArgs e)
         {
             TurnOffBatteryConditionUpdater();
+            SetDefaultPowerTimeout();
             System.Windows.Forms.Application.Exit();
         }
 
@@ -88,7 +91,7 @@ namespace Battery
             batteryConditionUpdater.Abort();
         }
 
-        private void powerTimeoutTrackBar_Scroll(object sender, EventArgs e)
+        private void PowerTimeoutTrackBar_Scroll(object sender, EventArgs e)
         {
             int powerTimeoutInMunites = powerTimeoutTrackBar.Value;
             if(powerTimeoutInMunites == 0)
@@ -96,6 +99,18 @@ namespace Battery
                 powerTimeoutInMunites = 1;
             }
             batteryApi.SetPowerTimeout(powerTimeoutInMunites);
+        }
+
+        private void SetDefaultPowerTimeout()
+        {
+            batteryApi.SetPowerTimeout(DEFAULT_POWER_TIMEOUT_IN_MINUTES); 
+        }
+
+        private void BatteryViewer_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            TurnOffBatteryConditionUpdater();
+            SetDefaultPowerTimeout();
+            System.Windows.Forms.Application.Exit();
         }
     }
 }

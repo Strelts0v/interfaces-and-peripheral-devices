@@ -66,7 +66,7 @@
             this.powerTimeoutTrackBar.Size = new System.Drawing.Size(286, 45);
             this.powerTimeoutTrackBar.TabIndex = 2;
             this.powerTimeoutTrackBar.TickFrequency = 5;
-            this.powerTimeoutTrackBar.Scroll += new System.EventHandler(this.powerTimeoutTrackBar_Scroll);
+            this.powerTimeoutTrackBar.Scroll += new System.EventHandler(this.PowerTimeoutTrackBar_Scroll);
             // 
             // PowerTimeoutLabel
             // 
@@ -138,6 +138,7 @@
             this.Controls.Add(this.batteryListBox);
             this.Name = "BatteryViewer";
             this.Text = "BatteryViewer";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BatteryViewer_FormClosing);
             this.Load += new System.EventHandler(this.BatteryViewer_Load);
             ((System.ComponentModel.ISupportInitialize)(this.powerTimeoutTrackBar)).EndInit();
             this.ResumeLayout(false);
