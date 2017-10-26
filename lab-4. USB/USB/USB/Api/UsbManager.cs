@@ -21,9 +21,11 @@ namespace USB.Api
         public List<UsbDevice> GetUserUsbDevices()
         {
             List<string> usbDevicesInfoStr = GetUsbDrivesList();
+            List<UsbDevice> mtpUsbDevices = GetUsbDevicesUsingMTP();
             List<UsbDevice> usbDevices = ConvertStrListToDeviceList(usbDevicesInfoStr);
+            List<UsbDevice> resultList = MergeInfoUsbDeviceInfo(mtpUsbDevices, usbDevices);
 
-            return usbDevices;
+            return resultList;
         }
 
         private List<string> GetUsbDrivesList()
@@ -31,6 +33,27 @@ namespace USB.Api
             this.volumeDeviceClass = new VolumeDeviceClass();
             this.FillUsbDrivesList();
             return this.UsbDrivesList;
+        }
+
+        private List<UsbDevice> MergeInfoUsbDeviceInfo(List<UsbDevice> mtpUsbDevices, List<UsbDevice> usbDevices)
+        {
+            for(var i = 0; i < mtpUsbDevices.Count; i++)
+            {
+                for (var j = 0; j < usbDevices.Count; j++)
+                {
+                    if (mtpUsbDevices.ElementAt(i).DeviceAllMemory
+                        .Equals(usbDevices.ElementAt(j).DeviceAllMemory))
+                    {
+                        mtpUsbDevices.ElementAt(i)
+                            .setDeviceLetter(usbDevices.ElementAt(j).DeviceLetter);
+                        mtpUsbDevices.ElementAt(i)
+                            .setDeviceName(usbDevices.ElementAt(j).DeviceName);
+                        usbDevices.Remove(usbDevices.ElementAt(j));
+                    }
+                }
+            }
+            mtpUsbDevices.AddRange(usbDevices);
+            return mtpUsbDevices;
         }
 
         public void EjectDrive(string name)
@@ -74,6 +97,40 @@ namespace USB.Api
             }
 
             return device;
+        }
+
+        public List<UsbDevice> GetUsbDevicesUsingMTP()
+        {
+            this.portableDevices = new PortableDeviceCollection();
+            this.portableDevices.Refresh();
+            var resultDevices = new List<UsbDevice>();
+            foreach (var device in this.portableDevices)
+            {
+                device.Connect();
+                resultDevices.Add(GetMTPDevice(device));
+            }
+            return resultDevices;
+        }
+
+        private UsbDevice GetMTPDevice(PortableDevice device)
+        {
+            var contents = device.GetContents();
+            long total = 0;
+            long free = 0;
+            foreach (var file in contents.Files)
+            {
+                total += file.TotalSize;
+                free += file.FreeSpace;
+            }
+            long taken = total - free;
+
+            UsbDevice usbDevice = new UsbDevice();
+            usbDevice.setDeviceName(device.FriendlyName);
+            usbDevice.setDeviceAllMemory(total);
+            usbDevice.setDeviceFreeMemory(free);
+            usbDevice.setDeviceUsedMemory(total - free);
+
+            return usbDevice;
         }
 
         private System.IO.DriveInfo GetUsbInfo(string name)
