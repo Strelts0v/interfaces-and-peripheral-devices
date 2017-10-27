@@ -15,6 +15,8 @@ namespace USB.Api
         private VolumeDeviceClass volumeDeviceClass;
         private PortableDeviceCollection portableDevices;
 
+        private readonly static string DEFAULT_DEVICE_LETTER = "No logical disk";
+
         public UsbManager()
         {}
 
@@ -129,6 +131,7 @@ namespace USB.Api
             usbDevice.SetDeviceAllMemory(total);
             usbDevice.SetDeviceFreeMemory(free);
             usbDevice.SetDeviceUsedMemory(total - free);
+            usbDevice.SetDeviceLetter(getDefaultDeviceLetter());
 
             return usbDevice;
         }
@@ -148,6 +151,11 @@ namespace USB.Api
                 usbDeviceList.Add(usbDevice);
             }
             return usbDeviceList;
+        }
+
+        private string getDefaultDeviceLetter()
+        {
+            return DEFAULT_DEVICE_LETTER;
         }
     }
 }
