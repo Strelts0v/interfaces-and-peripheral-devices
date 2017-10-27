@@ -45,9 +45,9 @@ namespace USB.Api
                         .Equals(usbDevices.ElementAt(j).DeviceAllMemory))
                     {
                         mtpUsbDevices.ElementAt(i)
-                            .setDeviceLetter(usbDevices.ElementAt(j).DeviceLetter);
+                            .SetDeviceLetter(usbDevices.ElementAt(j).DeviceLetter);
                         mtpUsbDevices.ElementAt(i)
-                            .setDeviceName(usbDevices.ElementAt(j).DeviceName);
+                            .SetDeviceName(usbDevices.ElementAt(j).DeviceName);
                         usbDevices.Remove(usbDevices.ElementAt(j));
                     }
                 }
@@ -87,13 +87,13 @@ namespace USB.Api
         {
             var info = this.GetUsbInfo(usb);
             UsbDevice device = new UsbDevice();
-            device.setDeviceLetter(usb);
+            device.SetDeviceLetter(usb);
             if(info.IsReady == true)
             {
-                device.setDeviceAllMemory(info.TotalSize);
-                device.setDeviceFreeMemory(info.AvailableFreeSpace);
-                device.setDeviceUsedMemory(info.TotalSize - info.AvailableFreeSpace);
-                device.setDeviceName(info.VolumeLabel);
+                device.SetDeviceAllMemory(info.TotalSize);
+                device.SetDeviceFreeMemory(info.AvailableFreeSpace);
+                device.SetDeviceUsedMemory(info.TotalSize - info.AvailableFreeSpace);
+                device.SetDeviceName(info.VolumeLabel);
             }
 
             return device;
@@ -125,10 +125,10 @@ namespace USB.Api
             long taken = total - free;
 
             UsbDevice usbDevice = new UsbDevice();
-            usbDevice.setDeviceName(device.FriendlyName);
-            usbDevice.setDeviceAllMemory(total);
-            usbDevice.setDeviceFreeMemory(free);
-            usbDevice.setDeviceUsedMemory(total - free);
+            usbDevice.SetDeviceName(device.FriendlyName);
+            usbDevice.SetDeviceAllMemory(total);
+            usbDevice.SetDeviceFreeMemory(free);
+            usbDevice.SetDeviceUsedMemory(total - free);
 
             return usbDevice;
         }
