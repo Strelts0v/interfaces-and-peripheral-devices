@@ -27,7 +27,7 @@ Display all connected user USB devices (flash drives, mobile phones, cameras - a
 - Implement the necessary functionality to safely remove the selected USB device.
 - Implement automatic update of output information in real time, as well as monitor connection and detection events.
 - Implement the graphical interface.
-№ 5. Device manager
+# 5. Device manager
 List all devices connected to the computer and accessible through the standard device manager. For each device, specify:
 - GUID;
 - HardwareID;
