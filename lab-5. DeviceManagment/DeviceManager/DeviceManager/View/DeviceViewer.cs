@@ -3,36 +3,54 @@ using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 using DeviceManager.Model;
-using DeviceManager.Api;
+using System.Management;
+using System.Threading.Tasks;
 
 namespace DeviceManager.View
 {
     public partial class DeviceViewer : Form
     {
         private readonly Api.DeviceManager _deviceManager = new Api.DeviceManager();
-        private List<Device> _deviceList;
+        private List<Device> _systemDeviceList;
         private readonly DataTable _table = new DataTable();
 
+        private const string DeviceColumnName = "Device GUID";
         private const string DeviceOkStatus = "OK";
         private const string DeviceErrorStatus = "ERROR";
-        
+
+        private const string UsbChangedStateWqlQuery =
+            "SELECT * FROM Win32_VolumeChangeEvent WHERE EventType = 2 or EventType = 3";
+
         public DeviceViewer()
         {
             InitializeComponent();
+            InitializeBackgroundWorker();
         }
 
-        private void LoadForm(object sender, EventArgs e)
+        private void InitializeBackgroundWorker()
         {
-            _deviceList = new List<Device>();
-            _table.Columns.Add("Device GUID", typeof(string));
+            var query = new WqlEventQuery(UsbChangedStateWqlQuery);
+            var watcher = new ManagementEventWatcher(query);
 
-            ReloadForm();
+            watcher.EventArrived += (o, e) =>
+            {
+                RefreshDeviceViewerProcedure();
+            };
+            watcher.Start();
+        }
+
+        private void InitializeDeviceViewer(object sender, EventArgs e)
+        {
+            _systemDeviceList = new List<Device>();
+            _table.Columns.Add(DeviceColumnName, typeof(string));
+
             deviceList.DataSource = _table;
+            RefreshDeviceViewer();
             disableButton.Enabled = false;
             enableButton.Enabled = false;
         }
 
-        private void ReloadForm()
+        private void RefreshDeviceViewer()
         {
             var currentPosition = 0;
 
@@ -41,10 +59,11 @@ namespace DeviceManager.View
                 currentPosition = deviceList.CurrentRow.Index;
             }
 
-            _table.Clear();
-            _deviceList = _deviceManager.GetDevices();
+            deviceList.ClearSelection();
+            _table.Rows.Clear();
+            _systemDeviceList = _deviceManager.GetDevices();
 
-            foreach (var device in _deviceList)
+            foreach (var device in _systemDeviceList)
             {
                 _table.Rows.Add(device.Guid);
             }
@@ -55,25 +74,27 @@ namespace DeviceManager.View
             }
         }
 
-        private void ChangeSelect(object sender, EventArgs e)
+        private void SelectedItemChanged(object sender, EventArgs e)
         {
            
             if (deviceList.CurrentRow == null) return;
-            
-            if (deviceList.CurrentRow.Index >= 0 && deviceList.CurrentRow.Index < _deviceList.Count)
+
+            var currentIndex = deviceList.CurrentRow.Index;
+
+            if (currentIndex >= 0 && currentIndex < _systemDeviceList.Count)
             {
                 deviceDetailsTextBox.Text = 
-                    $"Guid: {_deviceList[deviceList.CurrentRow.Index].Guid}\r\n" +
-                    $"HardwareID: {_deviceList[deviceList.CurrentRow.Index].HardwareId}\r\n" +
-                    $"Manufacture: {_deviceList[deviceList.CurrentRow.Index].Manufacturer}\r\n" + 
-                    $"Provider: {_deviceList[deviceList.CurrentRow.Index].Provider}\r\n" +
-                    $"Driver description: {_deviceList[deviceList.CurrentRow.Index].DriverDescription}\r\n" + 
-                    $"System file path: {_deviceList[deviceList.CurrentRow.Index].SystemFilePath}\r\n" +
-                    $"Status: {_deviceList[deviceList.CurrentRow.Index].Status}\r\n";
+                    $"Guid: {_systemDeviceList[currentIndex].Guid}\r\n" +
+                    $"HardwareID: {_systemDeviceList[currentIndex].HardwareId}\r\n" +
+                    $"Manufacture: {_systemDeviceList[currentIndex].Manufacturer}\r\n" + 
+                    $"Provider: {_systemDeviceList[currentIndex].Provider}\r\n" +
+                    $"Driver description: {_systemDeviceList[currentIndex].DriverDescription}\r\n" + 
+                    $"System file path: {_systemDeviceList[currentIndex].SystemFilePath}\r\n" +
+                    $"Status: {_systemDeviceList[currentIndex].Status}\r\n";
 
-                switch (_deviceList[deviceList.CurrentRow.Index].Status)
+                switch (_systemDeviceList[deviceList.CurrentRow.Index].Status)
                 {
-                    case DeviceOkStatus when _deviceList[deviceList.CurrentRow.Index].IsEnabled == true:
+                    case DeviceOkStatus when _systemDeviceList[deviceList.CurrentRow.Index].IsEnabled == true:
                         disableButton.Enabled = true;
                         enableButton.Enabled = false;
                         break;
@@ -95,7 +116,7 @@ namespace DeviceManager.View
             
             if (deviceList.CurrentRow == null) return;
             
-            var device = _deviceList[deviceList.CurrentRow.Index];
+            var device = _systemDeviceList[deviceList.CurrentRow.Index];
             if (device.DisableDevice())
             {
                 device.IsEnabled = false;
@@ -112,7 +133,7 @@ namespace DeviceManager.View
         {
             if (deviceList.CurrentRow == null) return;
             
-            var device = _deviceList[deviceList.CurrentRow.Index];
+            var device = _systemDeviceList[deviceList.CurrentRow.Index];
             if (device.EnableDevice())
             {
                 device.IsEnabled = true;
@@ -129,5 +150,8 @@ namespace DeviceManager.View
         {
             System.Windows.Forms.Application.Exit();
         }
+
+        private void RefreshDeviceViewerProcedure()
+        {}
     }
 }
