@@ -32,7 +32,7 @@
             this.disableButton = new System.Windows.Forms.Button();
             this.deviceDetailsTextBox = new System.Windows.Forms.TextBox();
             this.enableButton = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.exitButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.deviceList)).BeginInit();
             this.SuspendLayout();
             // 
@@ -46,7 +46,7 @@
             this.deviceList.Name = "deviceList";
             this.deviceList.Size = new System.Drawing.Size(278, 266);
             this.deviceList.TabIndex = 0;
-            this.deviceList.SelectionChanged += new System.EventHandler(this.ChangeSelect);
+            this.deviceList.SelectionChanged += new System.EventHandler(this.SelectedItemChanged);
             // 
             // disableButton
             // 
@@ -80,16 +80,16 @@
             this.enableButton.UseVisualStyleBackColor = true;
             this.enableButton.Click += new System.EventHandler(this.EnableButton);
             // 
-            // button1
+            // exitButton
             // 
-            this.button1.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold);
-            this.button1.Location = new System.Drawing.Point(199, 284);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(91, 23);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Exit";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.ExitButton_Click);
+            this.exitButton.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold);
+            this.exitButton.Location = new System.Drawing.Point(199, 284);
+            this.exitButton.Name = "exitButton";
+            this.exitButton.Size = new System.Drawing.Size(91, 23);
+            this.exitButton.TabIndex = 5;
+            this.exitButton.Text = "Exit";
+            this.exitButton.UseVisualStyleBackColor = true;
+            this.exitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
             // DeviceViewer
             // 
@@ -97,14 +97,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(677, 322);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.exitButton);
             this.Controls.Add(this.enableButton);
             this.Controls.Add(this.deviceDetailsTextBox);
             this.Controls.Add(this.disableButton);
             this.Controls.Add(this.deviceList);
             this.Name = "DeviceViewer";
-            this.Text = "Device deviceManager";
-            this.Load += new System.EventHandler(this.LoadForm);
+            this.Text = "Device Manager ";
+            this.Load += new System.EventHandler(this.InitializeDeviceViewer);
             ((System.ComponentModel.ISupportInitialize)(this.deviceList)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -117,6 +117,6 @@
         private System.Windows.Forms.Button disableButton;
         private System.Windows.Forms.TextBox deviceDetailsTextBox;
         private System.Windows.Forms.Button enableButton;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button exitButton;
     }
 }
