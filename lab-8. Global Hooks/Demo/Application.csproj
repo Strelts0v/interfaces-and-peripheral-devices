@@ -44,7 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AesCryptographer.cs" />
+    <Compile Include="AppProperties.cs" />
+    <Compile Include="ConfigManager.cs" />
     <Compile Include="EmailService.cs" />
+    <Compile Include="LogFileWatcher.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>

@@ -13,10 +13,12 @@ namespace Demo
         private static EmailService _instance;
 
         private Logger _logger;
+        private ConfigManager _configManager;
 
         private EmailService()
         {
             _logger = Logger.Instance;
+            _configManager = new ConfigManager();
         }
 
         public static EmailService Instance => _instance ?? (_instance = new EmailService());
@@ -27,8 +29,8 @@ namespace Demo
             {
                 var mail = new MailMessage();
                 var smtpServer = new SmtpClient("smtp.gmail.com");
-                mail.From = new MailAddress(Properties.Settings.Default.EmailAddressFrom);
-                mail.To.Add(Properties.Settings.Default.EmailAddressTo);
+                mail.From = new MailAddress(_configManager.GetProperty(AppProperties.EmailAddressFromProperty));
+                mail.To.Add(_configManager.GetProperty(AppProperties.EmailAddressToProperty));
                 mail.Subject = "Global Hooks. Logs";
                 mail.Body = "Log file:";
 
@@ -38,13 +40,13 @@ namespace Demo
                 mail.Attachments.Add(attachment);
 
                 smtpServer.Credentials = new System.Net.NetworkCredential(
-                    Properties.Settings.Default.EmailAddressFrom,
-                    Properties.Settings.Default.Password);
+                    _configManager.GetProperty(AppProperties.EmailAddressFromProperty),
+                    _configManager.GetProperty(AppProperties.PasswordProperty));
 
                 smtpServer.Port = 587;
                 smtpServer.EnableSsl = true;
 
-                smtpServer.Send(mail);
+                smtpServer.SendAsync(mail, null);
                 attachment.Dispose();
                 _logger.CleanUpLogFile();
                 MessageBox.Show(@"Mail was sent");
