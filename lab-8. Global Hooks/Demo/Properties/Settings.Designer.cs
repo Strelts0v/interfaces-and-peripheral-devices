@@ -25,7 +25,7 @@ namespace Demo.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ka1oken4by@gmail.com")]
+        [global::System.Configuration.DefaultSettingValueAttribute("EAAAAKB7cg6twdeJKP/lZhxnP2FyLZsuwtTcX89WGE+OB1hefevn9ydcgMf+yF0Tte3OcQ==")]
         public string EmailAddressFrom {
             get {
                 return ((string)(this["EmailAddressFrom"]));
@@ -37,7 +37,7 @@ namespace Demo.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("19980319lesh1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("EAAAAEz49LVCHMWwfhHidRqz0OE6vd58NWUcAU+y3tDiu+UG")]
         public string Password {
             get {
                 return ((string)(this["Password"]));
@@ -49,7 +49,7 @@ namespace Demo.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("mugory@cars2.club")]
+        [global::System.Configuration.DefaultSettingValueAttribute("EAAAAB2nPaJI0z442fHjKuLeW3nNOS75uorALFeenYxiU9yqdyNFrJPYdPmz1FJ646H4zQ==")]
         public string EmailAddressTo {
             get {
                 return ((string)(this["EmailAddressTo"]));
@@ -61,10 +61,10 @@ namespace Demo.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool IsHiddenAppMode {
+        [global::System.Configuration.DefaultSettingValueAttribute("EAAAANJ49gnxnC+7tn0Vmxyjgp+0zWlr38ttQtMxYA1+D7r8")]
+        public string IsHiddenAppMode {
             get {
-                return ((bool)(this["IsHiddenAppMode"]));
+                return ((string)(this["IsHiddenAppMode"]));
             }
             set {
                 this["IsHiddenAppMode"] = value;
@@ -73,10 +73,10 @@ namespace Demo.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10")]
-        public int FileSize {
+        [global::System.Configuration.DefaultSettingValueAttribute("EAAAAMvKbGBWJkTdwUNE7jgwDVeLAHH5rMtM+Lcgy+nl5nzr")]
+        public string FileSize {
             get {
-                return ((int)(this["FileSize"]));
+                return ((string)(this["FileSize"]));
             }
             set {
                 this["FileSize"] = value;

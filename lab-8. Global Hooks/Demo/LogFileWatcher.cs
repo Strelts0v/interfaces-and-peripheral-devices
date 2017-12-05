@@ -11,7 +11,6 @@ namespace Demo
     {
         private static EmailService _emailService;
         private static ConfigManager _configManager;
-        private readonly FileSystemWatcher _watcher;
 
         private const int BytesPerKBytes = 1024;
 
@@ -20,16 +19,16 @@ namespace Demo
             _emailService = EmailService.Instance;
             _configManager = new ConfigManager();
 
-            _watcher = new FileSystemWatcher
+            var watcher = new FileSystemWatcher
             {
                 Path = filePath,
                 NotifyFilter = NotifyFilters.LastWrite,
                 Filter = "*.txt"
             };
 
-            _watcher.Changed += OnFileChanged;
+            watcher.Changed += OnFileChanged;
 
-            _watcher.EnableRaisingEvents = true;
+            watcher.EnableRaisingEvents = true;
         }
 
         private static void OnFileChanged(object source, FileSystemEventArgs e)
@@ -38,7 +37,7 @@ namespace Demo
             var maxFileSize = int.Parse(_configManager.GetProperty(AppProperties.FileSizeProperty));
             if (file.Length / BytesPerKBytes >= maxFileSize)
             {
-                //_emailService.SendEmail();
+                _emailService.SendEmail();
             }
         }
     }

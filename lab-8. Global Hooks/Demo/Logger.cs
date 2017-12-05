@@ -29,6 +29,8 @@ namespace Demo
             try
             {
                 _writer.WriteLine($"| {DateTime.Now} | : {logMessage}");
+                CloseLogFile();
+                OpenLogFile(false);
             }
             catch (Exception ex)
             {
@@ -52,13 +54,18 @@ namespace Demo
             {
                 File.WriteAllText(_logFilePath, string.Empty);
             }
-            _writer = File.AppendText(_logFilePath);
-            _writer.AutoFlush = true;
+            try
+            {
+                _writer = File.AppendText(_logFilePath);
+            } catch (Exception ex)
+            {
+                OpenLogFile(false);
+            }
         }
 
         private void CloseLogFile()
         {
-            _writer.Close();
+             _writer.Close();
             _writer = null;
         }
     }
