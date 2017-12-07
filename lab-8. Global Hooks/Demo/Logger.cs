@@ -6,20 +6,11 @@ namespace Demo
 {
     public class Logger
     {
-        private static Logger _instance;
-
-        private StreamWriter _writer;
+        private static StreamWriter _writer;
 
         private static readonly string _logFilePath = "logs.txt";
 
-        private Logger()
-        {
-            OpenLogFile(false);
-        }
-
-        public static Logger Instance => _instance ?? (_instance = new Logger());
-
-        public void Log(string logMessage)
+        public static void Log(string logMessage)
         {
             if (_writer == null)
             {
@@ -28,7 +19,7 @@ namespace Demo
 
             try
             {
-                _writer.WriteLine($"| {DateTime.Now} | : {logMessage}");
+                _writer?.WriteLine($"| {DateTime.Now} | : {logMessage}");
                 CloseLogFile();
                 OpenLogFile(false);
             }
@@ -38,17 +29,17 @@ namespace Demo
             }
         }
 
-        public void ReleaseLogFile()
+        public static void ReleaseLogFile()
         {
             CloseLogFile();
         }
 
-        public void CleanUpLogFile()
+        public static void CleanUpLogFile()
         {
             File.WriteAllText(_logFilePath, string.Empty);
         }
 
-        private void OpenLogFile(bool needToCleanUpFile)
+        private static void OpenLogFile(bool needToCleanUpFile)
         {
             if (needToCleanUpFile)
             {
@@ -63,7 +54,7 @@ namespace Demo
             }
         }
 
-        private void CloseLogFile()
+        private static void CloseLogFile()
         {
              _writer.Close();
             _writer = null;

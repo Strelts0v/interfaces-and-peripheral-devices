@@ -10,45 +10,32 @@ namespace Demo
 {
     class EmailService
     {
-        private static EmailService _instance;
-
-        private Logger _logger;
-        private ConfigManager _configManager;
-
-        private EmailService()
-        {
-            _logger = Logger.Instance;
-            _configManager = new ConfigManager();
-        }
-
-        public static EmailService Instance => _instance ?? (_instance = new EmailService());
-
-        public void SendEmail()
+        public static void SendEmail()
         {
             try
             {
                 var mail = new MailMessage();
                 var smtpServer = new SmtpClient("smtp.gmail.com");
-                mail.From = new MailAddress(_configManager.GetProperty(AppProperties.EmailAddressFromProperty));
-                mail.To.Add(_configManager.GetProperty(AppProperties.EmailAddressToProperty));
+                mail.From = new MailAddress(ConfigManager.GetProperty(AppProperties.EmailAddressFromProperty));
+                mail.To.Add(ConfigManager.GetProperty(AppProperties.EmailAddressToProperty));
                 mail.Subject = "Global Hooks. Logs";
                 mail.Body = "Log file:";
 
-                _logger.ReleaseLogFile();
+                Logger.ReleaseLogFile();
 
                 var attachment = new Attachment("logs.txt");
                 mail.Attachments.Add(attachment);
 
                 smtpServer.Credentials = new System.Net.NetworkCredential(
-                    _configManager.GetProperty(AppProperties.EmailAddressFromProperty),
-                    _configManager.GetProperty(AppProperties.PasswordProperty));
+                    ConfigManager.GetProperty(AppProperties.EmailAddressFromProperty),
+                    ConfigManager.GetProperty(AppProperties.PasswordProperty));
 
                 smtpServer.Port = 587;
                 smtpServer.EnableSsl = true;
 
-                smtpServer.SendAsync(mail, null);
+                smtpServer.Send(mail);
                 attachment.Dispose();
-                _logger.CleanUpLogFile();
+                Logger.CleanUpLogFile();
                 MessageBox.Show(@"Mail was sent");
             }
             catch (Exception ex)

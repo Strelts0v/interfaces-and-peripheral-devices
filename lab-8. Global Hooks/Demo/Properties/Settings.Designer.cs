@@ -25,6 +25,18 @@ namespace Demo.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("EAAAANJ49gnxnC+7tn0Vmxyjgp+0zWlr38ttQtMxYA1+D7r8")]
+        public string IsHiddenAppMode {
+            get {
+                return ((string)(this["IsHiddenAppMode"]));
+            }
+            set {
+                this["IsHiddenAppMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("EAAAAKB7cg6twdeJKP/lZhxnP2FyLZsuwtTcX89WGE+OB1hefevn9ydcgMf+yF0Tte3OcQ==")]
         public string EmailAddressFrom {
             get {
@@ -56,18 +68,6 @@ namespace Demo.Properties {
             }
             set {
                 this["EmailAddressTo"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("EAAAANJ49gnxnC+7tn0Vmxyjgp+0zWlr38ttQtMxYA1+D7r8")]
-        public string IsHiddenAppMode {
-            get {
-                return ((string)(this["IsHiddenAppMode"]));
-            }
-            set {
-                this["IsHiddenAppMode"] = value;
             }
         }
         
