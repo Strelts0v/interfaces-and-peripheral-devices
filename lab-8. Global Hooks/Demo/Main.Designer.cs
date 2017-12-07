@@ -33,18 +33,18 @@
             this.labelMousePosition = new System.Windows.Forms.Label();
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.editSettingsButton = new System.Windows.Forms.Button();
             this.suppressAltF4CheckBox = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.clearLogButton = new System.Windows.Forms.Button();
             this.checkBoxSupressMouseWheel = new System.Windows.Forms.CheckBox();
-            this.editSettingsButton = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // suppressMouseCheckBox
             // 
             this.suppressMouseCheckBox.AutoSize = true;
-            this.suppressMouseCheckBox.Location = new System.Drawing.Point(161, 15);
+            this.suppressMouseCheckBox.Location = new System.Drawing.Point(146, 17);
             this.suppressMouseCheckBox.Name = "suppressMouseCheckBox";
             this.suppressMouseCheckBox.Size = new System.Drawing.Size(159, 17);
             this.suppressMouseCheckBox.TabIndex = 13;
@@ -58,7 +58,7 @@
             this.labelWheel.AutoSize = true;
             this.labelWheel.BackColor = System.Drawing.Color.White;
             this.labelWheel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelWheel.Location = new System.Drawing.Point(9, 42);
+            this.labelWheel.Location = new System.Drawing.Point(13, 44);
             this.labelWheel.Name = "labelWheel";
             this.labelWheel.Size = new System.Drawing.Size(89, 13);
             this.labelWheel.TabIndex = 6;
@@ -70,7 +70,7 @@
             this.labelMousePosition.AutoSize = true;
             this.labelMousePosition.BackColor = System.Drawing.Color.White;
             this.labelMousePosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMousePosition.Location = new System.Drawing.Point(9, 16);
+            this.labelMousePosition.Location = new System.Drawing.Point(13, 18);
             this.labelMousePosition.Name = "labelMousePosition";
             this.labelMousePosition.Size = new System.Drawing.Size(125, 13);
             this.labelMousePosition.TabIndex = 2;
@@ -82,12 +82,12 @@
             this.textBoxLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxLog.Location = new System.Drawing.Point(0, 105);
+            this.textBoxLog.Location = new System.Drawing.Point(0, 107);
             this.textBoxLog.Multiline = true;
             this.textBoxLog.Name = "textBoxLog";
             this.textBoxLog.ReadOnly = true;
             this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxLog.Size = new System.Drawing.Size(599, 292);
+            this.textBoxLog.Size = new System.Drawing.Size(454, 290);
             this.textBoxLog.TabIndex = 8;
             this.textBoxLog.WordWrap = false;
             // 
@@ -107,14 +107,24 @@
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(599, 105);
+            this.groupBox2.Size = new System.Drawing.Size(454, 107);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
+            // 
+            // editSettingsButton
+            // 
+            this.editSettingsButton.Location = new System.Drawing.Point(335, 73);
+            this.editSettingsButton.Name = "editSettingsButton";
+            this.editSettingsButton.Size = new System.Drawing.Size(107, 23);
+            this.editSettingsButton.TabIndex = 19;
+            this.editSettingsButton.Text = "Edit settings";
+            this.editSettingsButton.UseVisualStyleBackColor = true;
+            this.editSettingsButton.Click += new System.EventHandler(this.EditSettingsButton_Click);
             // 
             // suppressAltF4CheckBox
             // 
             this.suppressAltF4CheckBox.AutoSize = true;
-            this.suppressAltF4CheckBox.Location = new System.Drawing.Point(161, 62);
+            this.suppressAltF4CheckBox.Location = new System.Drawing.Point(146, 64);
             this.suppressAltF4CheckBox.Name = "suppressAltF4CheckBox";
             this.suppressAltF4CheckBox.Size = new System.Drawing.Size(109, 17);
             this.suppressAltF4CheckBox.TabIndex = 18;
@@ -123,7 +133,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(355, 15);
+            this.button1.Location = new System.Drawing.Point(335, 15);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(107, 23);
             this.button1.TabIndex = 17;
@@ -133,7 +143,7 @@
             // 
             // clearLogButton
             // 
-            this.clearLogButton.Location = new System.Drawing.Point(355, 44);
+            this.clearLogButton.Location = new System.Drawing.Point(335, 44);
             this.clearLogButton.Name = "clearLogButton";
             this.clearLogButton.Size = new System.Drawing.Size(107, 23);
             this.clearLogButton.TabIndex = 16;
@@ -144,7 +154,7 @@
             // checkBoxSupressMouseWheel
             // 
             this.checkBoxSupressMouseWheel.AutoSize = true;
-            this.checkBoxSupressMouseWheel.Location = new System.Drawing.Point(161, 38);
+            this.checkBoxSupressMouseWheel.Location = new System.Drawing.Point(146, 40);
             this.checkBoxSupressMouseWheel.Name = "checkBoxSupressMouseWheel";
             this.checkBoxSupressMouseWheel.Size = new System.Drawing.Size(139, 17);
             this.checkBoxSupressMouseWheel.TabIndex = 15;
@@ -152,21 +162,11 @@
             this.checkBoxSupressMouseWheel.UseVisualStyleBackColor = true;
             this.checkBoxSupressMouseWheel.CheckedChanged += new System.EventHandler(this.checkBoxSupressMouseWheel_CheckedChanged);
             // 
-            // editSettingsButton
-            // 
-            this.editSettingsButton.Location = new System.Drawing.Point(355, 74);
-            this.editSettingsButton.Name = "editSettingsButton";
-            this.editSettingsButton.Size = new System.Drawing.Size(107, 23);
-            this.editSettingsButton.TabIndex = 19;
-            this.editSettingsButton.Text = "Edit settings";
-            this.editSettingsButton.UseVisualStyleBackColor = true;
-            this.editSettingsButton.Click += new System.EventHandler(this.EditSettingsButton_Click);
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(599, 397);
+            this.ClientSize = new System.Drawing.Size(454, 397);
             this.Controls.Add(this.textBoxLog);
             this.Controls.Add(this.groupBox2);
             this.Name = "Main";

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Configuration;
-using Demo.Properties;
+﻿using System.Configuration;
 
 namespace Demo
 {
@@ -17,18 +15,10 @@ namespace Demo
 
         public static string GetProperty(string propertyName)
         {
-            //var propertyValue = Properties.Settings.Default[propertyName].ToString();
-            //return propertyValue;
             var encryptedResult = _settings[propertyName]?.Value;
-            //return result;
-            if (encryptedResult == null)
-            {
-                return "Not found";
-            }
-            else
-            {
-                return AesCryptographer.DecryptStringAes(encryptedResult, SharedSecret);
-            }
+            return encryptedResult == null 
+                ? "Not found"
+                : AesCryptographer.DecryptStringAes(encryptedResult, SharedSecret);
         }
 
         public static void SetProperty(string propertyName, string propertyValue)
@@ -44,8 +34,6 @@ namespace Demo
             }
             _configFile.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection(_configFile.AppSettings.SectionInformation.Name);
-            /*Properties.Settings.Default[propertyName] = propertyEncodedValue;
-            Properties.Settings.Default.Save();*/
         }
 
         public static void SetPropertyWithoutEncrypt(string propertyName, string propertyValue)
