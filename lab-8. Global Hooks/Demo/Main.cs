@@ -28,7 +28,7 @@ namespace Demo
                 isAppHidden = bool.Parse(
                     ConfigManager.GetProperty(AppProperties.IsHiddenAppModeProperty));
             }
-            catch (Exception ex)
+            catch (Exception)
             {}
 
             _isCurrentAppModeHidden = isAppHidden;
@@ -289,29 +289,6 @@ namespace Demo
         {
             EmailService.SendEmail();
         }
-
-        /*private void InitializeAppProperties()
-        {
-            var value = "EAAAAKB7cg6twdeJKP/lZhxnP2FyLZsuwtTcX89WGE+OB1hefevn9ydcgMf+yF0Tte3OcQ==";
-            var prop = "EmailAddressFrom";
-            ConfigManager.SetPropertyWithoutEncrypt(prop, value);
-
-            value = "EAAAAEz49LVCHMWwfhHidRqz0OE6vd58NWUcAU+y3tDiu+UG";
-            prop = "Password";
-            ConfigManager.SetPropertyWithoutEncrypt(prop, value);
-
-            value = "zigosaqu@banit.club";
-            prop = "EmailAddressTo";
-            ConfigManager.SetProperty(prop, value);
-
-            value = "EAAAANJ49gnxnC+7tn0Vmxyjgp+0zWlr38ttQtMxYA1+D7r8";
-            prop = "IsHiddenAppMode";
-            ConfigManager.SetPropertyWithoutEncrypt(prop, value);
-
-            value = "EAAAAMvKbGBWJkTdwUNE7jgwDVeLAHH5rMtM+Lcgy+nl5nzr";
-            prop = "FileSize";
-            ConfigManager.SetPropertyWithoutEncrypt(prop, value);
-        }*/
 
         private void EditSettingsButton_Click(object sender, EventArgs e)
         {
