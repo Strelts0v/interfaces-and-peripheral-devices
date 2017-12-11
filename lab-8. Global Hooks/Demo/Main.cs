@@ -14,8 +14,6 @@ namespace Demo
         private bool _isPreviousKeyDown = false;
         private bool _isCurrentAppModeHidden;
 
-        private const string LogFilePath = @"G:\Archive\VS\ИиПУ\lab-8. Global Hooks\Demo\bin\Debug";
-
         public Main()
         {
             InitializeComponent();
@@ -347,5 +345,7 @@ namespace Demo
                 ConfigManager.SetProperty(AppProperties.IsHiddenAppModeProperty, form.IsHiddenMode.ToString());
             }
         }
+
+        private const string LogFilePath = @"G:\Archive\VS\ИиПУ\lab-8. Global Hooks\Demo\bin\Debug";
     }
 }
