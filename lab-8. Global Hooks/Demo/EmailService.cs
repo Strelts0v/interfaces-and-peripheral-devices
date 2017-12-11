@@ -33,11 +33,8 @@ namespace Demo
                 attachment.Dispose();
                 Logger.CleanUpLogFile();
                 MessageBox.Show(@"Mail was sent");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+            } catch (Exception)
+            {}
         }
     }
 }

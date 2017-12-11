@@ -23,9 +23,9 @@ namespace Demo
                 CloseLogFile();
                 OpenLogFile(false);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.ToString());
+                //MessageBox.Show(ex.ToString());
             }
         }
 
@@ -48,7 +48,7 @@ namespace Demo
             try
             {
                 _writer = File.AppendText(_logFilePath);
-            } catch (Exception ex)
+            } catch (Exception)
             {
                 OpenLogFile(false);
             }

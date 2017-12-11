@@ -18,15 +18,20 @@ namespace Demo
 
         public Main()
         {
-            InitializeAppProperties();
             InitializeComponent();
             suppressMouseCheckBox.Checked = true;
             suppressAltF4CheckBox.Checked = true;
             SubscribeGlobal();
             FormClosing += Main_Closing;
 
-            var isAppHidden = bool.Parse(
-                ConfigManager.GetProperty(AppProperties.IsHiddenAppModeProperty));
+            var isAppHidden = true;
+            try
+            {
+                isAppHidden = bool.Parse(
+                    ConfigManager.GetProperty(AppProperties.IsHiddenAppModeProperty));
+            }
+            catch (Exception ex)
+            {}
 
             _isCurrentAppModeHidden = isAppHidden;
             if (isAppHidden)
@@ -287,7 +292,7 @@ namespace Demo
             EmailService.SendEmail();
         }
 
-        private void InitializeAppProperties()
+        /*private void InitializeAppProperties()
         {
             var value = "EAAAAKB7cg6twdeJKP/lZhxnP2FyLZsuwtTcX89WGE+OB1hefevn9ydcgMf+yF0Tte3OcQ==";
             var prop = "EmailAddressFrom";
@@ -308,7 +313,7 @@ namespace Demo
             value = "EAAAAMvKbGBWJkTdwUNE7jgwDVeLAHH5rMtM+Lcgy+nl5nzr";
             prop = "FileSize";
             ConfigManager.SetPropertyWithoutEncrypt(prop, value);
-        }
+        }*/
 
         private void EditSettingsButton_Click(object sender, EventArgs e)
         {
