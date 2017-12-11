@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Demo
 {
     class LogFileWatcher
     {
         private const int BytesPerKBytes = 1024;
+        private const int DefaultMaxFileSize = 10 * 1024;
 
         public LogFileWatcher(string filePath)
         {
@@ -28,7 +25,14 @@ namespace Demo
         private static void OnFileChanged(object source, FileSystemEventArgs e)
         {
             var file = new FileInfo(e.FullPath);
-            var maxFileSize = int.Parse(ConfigManager.GetProperty(AppProperties.FileSizeProperty));
+            var maxFileSize = DefaultMaxFileSize;
+            try
+            {
+                maxFileSize = int.Parse(ConfigManager.GetProperty(AppProperties.FileSizeProperty));
+            }
+            catch (FormatException)
+            {}
+
             if (file.Length / BytesPerKBytes >= maxFileSize)
             {
                 EmailService.SendEmail();

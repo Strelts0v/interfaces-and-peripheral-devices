@@ -48,7 +48,17 @@ namespace Demo
         public SettingsEdit()
         {
             InitializeComponent();
-            isHiddenModeCheckBox.Checked = true;
+            IsHiddenMode = true;
+            EmailFrom = ConfigManager.GetProperty(AppProperties.EmailAddressFromProperty);
+            EmailTo = ConfigManager.GetProperty(AppProperties.EmailAddressToProperty);
+            Password = ConfigManager.GetProperty(AppProperties.PasswordProperty);
+            FileSize = ConfigManager.GetProperty(AppProperties.FileSizeProperty);
+
+            emailFromTextBox.Text = EmailFrom;
+            passwordTextBox.Text = Password;
+            emailToTextBox.Text = EmailTo;
+            isHiddenModeCheckBox.Checked = IsHiddenMode;
+            fileSizeTextBox.Text = FileSize;
         }
 
         private void OkButton_Click(object sender, EventArgs e)

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Demo
@@ -37,11 +33,8 @@ namespace Demo
                 attachment.Dispose();
                 Logger.CleanUpLogFile();
                 MessageBox.Show(@"Mail was sent");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+            } catch (Exception)
+            {}
         }
     }
 }
