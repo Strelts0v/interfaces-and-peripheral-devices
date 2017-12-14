@@ -16,8 +16,10 @@ namespace Demo
             {
                 _settings = GetSettings();
             }
+
             var encryptedValue = _settings.GetType().GetProperty(propertyName)
                 ?.GetValue(_settings, null).ToString();
+
             return AesCryptographer.DecryptStringAes(encryptedValue, SharedSecret);
         }
 
