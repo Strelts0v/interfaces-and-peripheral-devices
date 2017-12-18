@@ -8,6 +8,8 @@ namespace Demo
         private const int BytesPerKBytes = 1024;
         private const int DefaultMaxFileSize = 10 * 1024;
 
+        private static readonly string SharedSecret = "xxx123xxx";
+
         public LogFileWatcher(string filePath)
         {
             var watcher = new FileSystemWatcher
@@ -29,6 +31,11 @@ namespace Demo
             try
             {
                 maxFileSize = int.Parse(ConfigManager.GetProperty(AppProperties.FileSizeProperty));
+                if (maxFileSize <= 0)
+                {
+                    maxFileSize = int.Parse(AesCryptographer
+                        .DecryptStringAes(AppProperties.FileSizePropertyDefaultValue, SharedSecret));
+                }
             }
             catch (FormatException)
             {}
